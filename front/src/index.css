@@ -1,0 +1,113 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --fc-border-color: #f2f2f3;
+  --fc-today-bg-color: rgba(95, 255, 188, 0.15);
+  --color-green: #bbd081;
+  --color-blue: #1fb9ef;
+  --color-blue-hover: #0e87b3;
+  --color-50: #FCF4F4;
+  --color-100: #FAE6E6;
+  --color-200: #F6D2D2;
+  --color-300: #EFB2B2;
+  --color-400: #E38686;
+  --color-500: #DA7272;
+  --color-600: #C04242;
+  --color-700: #A13434;
+  --color-800: #862E2E;
+  --color-900: #702C2C;
+  --color-950: #3C1313;
+}
+
+body {
+  font-family: 'Work Sans', 'Noto Sans', Arial, sans-serif;
+  background-color: var(--color-50);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--color-700);
+}
+
+a {
+  color: var(--color-600);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--color-700);
+}
+
+.text-red-500 {
+  color: var(--color-500);
+}
+
+.bg-red-500 {
+  background-color: var(--color-500);
+}
+
+.hover\:bg-red-600:hover {
+  background-color: var(--color-600);
+}
+
+.fc .fc-button {
+  background-color: var(--color-500); /* Cambiar el color de fondo */
+  color: white; /* Cambiar el color del texto */
+  border: 1px solid transparent; /* Mantener el borde transparente */
+}
+.fc-timegrid-col-events {
+  margin: 1px 20px 1px 1px !important;
+  display: block !important;
+}
+
+.fc-timegrid-col-events div {
+  left: 0 !important;
+  z-index: 1 !important;
+}
+
+.fc-timegrid-col-events div:hover {
+  z-index: 4 !important;
+}
+
+.fc-theme-standard td {
+  border: none !important;
+  border-bottom: 1px solid var(--color-200) !important; /* Cambiar el color del borde inferior */
+}
+
+.fc-timegrid-event-harness-inset .fc-timegrid-event, .fc-timegrid-event.fc-event-mirror, .fc-timegrid-more-link {
+  box-shadow: none;
+  border: none !important;
+}
+
+.fc-theme-standard .fc-scrollgrid {
+  border: none !important;
+}
+
+.shadow {
+  box-shadow: none !important;
+}
+
+.fc .fc-timegrid-col-frame {
+  min-height: 100%;
+  position: relative;
+  border: 1px solid var(--color-200);
+}
+
+.fc .fc-col-header-cell-cushion {
+  display: inline-block;
+  padding: 20px 4px;
+  text-transform: capitalize;
+  font-weight: 500;
+}
+
+.fc-button-active {
+  background-color: white; /* Cambiar el color de fondo del botón activo */
+  color: var(--color-800); /* Cambiar el color del texto del botón activo */
+  border: 1px solid var(--color-500); /* Cambiar el color del borde del botón activo */
+}
+
+.fc .fc-button:hover {
+  background-color: var(--color-600); /* Cambiar el color de fondo al pasar el mouse */
+}
+
