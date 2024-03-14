@@ -31,7 +31,7 @@ const entries = Object.entries(sequelize.models)
 const capsEntries = entries.map((entry) => [entry[0][0].toUpperCase() + entry[0].slice(1), entry[1]])
 sequelize.models = Object.fromEntries(capsEntries)
 
-const { Student, Schedule, Status, Category, PaymentDate, Teacher, Level } = sequelize.models;
+const { Student, Schedule, Status, Category, PaymentDate, Teacher, Level, TypeClass, NameClass, AcountClass } = sequelize.models;
 
 Student.belongsToMany(Schedule, { through: 'StudentSchedule' })
 Schedule.belongsToMany(Student, { through: 'StudentSchedule' })
@@ -41,6 +41,15 @@ Category.belongsToMany(Student, { through: 'StudentCategory' })
 
 Student.belongsToMany(Level, { through: 'StudentLevel' })
 Level.belongsToMany(Student, { through: 'StudentLevel' })
+
+Student.belongsToMany(TypeClass, { through: 'StudenTypeClass' })
+TypeClass.belongsToMany(Student, { through: 'StudenTypeClass' })
+
+TypeClass.belongsToMany(NameClass, { through: 'TypeClassName' })
+NameClass.belongsToMany(TypeClass, { through: 'TypeClassName' })
+
+TypeClass.belongsToMany(AcountClass, { through: 'ClassAcount' })
+AcountClass.belongsToMany(TypeClass, { through: 'ClassAcount' })
 
 module.exports = {
   ...sequelize.models, 

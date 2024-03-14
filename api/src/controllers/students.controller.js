@@ -6,6 +6,7 @@ const {
   Category,
   Level,
   Schedule,
+  StudenTypeClass,
   conn: sequelize,
 } = require("../db");
 const errorUser = require("../utils/error");
@@ -177,11 +178,30 @@ const updateStudent = async (req, res) => {
   }
 };
 
+const addTypeClassStudent = async(req, res) => {
+  const { StudentId, TypeClassId } = req.body
+  try {
+    const addTypeClassStudent = await StudenTypeClass.create({
+      StudentId,
+      TypeClassId
+    })
+
+    res.status(200).json({
+      message: 'ok',
+      status: 200,
+      typeClassStudent: addTypeClassStudent
+    })
+  } catch (error) {
+    errorUser(error, res)
+  }
+}
+
 
 
 module.exports = {
   getAllStudent,
   postStudent,
   updateStudent,
-  getPagAllStudent
+  getPagAllStudent,
+  addTypeClassStudent
 };
