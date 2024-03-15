@@ -8,6 +8,7 @@ import { Sidebar } from '../components/sidebar/Sidebar'
 import { SchedulePage } from "../pages/SchedulePage";
 import { levelStore } from "../store/levelStore";
 import { categoryStore } from "../store/categoryStore";
+import { typeClassStore } from '../store/typeClassStore'
 
 export function Home() {
   const [open, setOpen] = useState(true)
@@ -15,6 +16,7 @@ export function Home() {
   const { getAllTeacher } = teacherStore(state => state)
   const { getLevel } = levelStore(state => state)
   const { getCategory } = categoryStore(state => state)
+  const { getAllClasses } = typeClassStore(state => state)
 
   const handleOpen = () => {
     setOpen(!open)
@@ -24,7 +26,8 @@ export function Home() {
     getAllTeacher()
     getLevel()
     getCategory()
-  }, [getAllStudents, getAllTeacher, getLevel, getCategory]); 
+    getAllClasses()
+  }, [getAllStudents, getAllTeacher, getLevel, getCategory, getAllClasses]); 
   return (
     <div className="flex flex-col">
       {/* Sidebar */}

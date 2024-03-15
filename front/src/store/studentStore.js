@@ -30,7 +30,6 @@ export const studentStore = create()((set, get) => {
 
     createStudent: async (data) => {
       const student = await createRequest(baseUrl, data)
-      console.log(student.student)
       set((state) => ({ students: [...state.students, student.student] }))
     },
 
