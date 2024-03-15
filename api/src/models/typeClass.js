@@ -23,10 +23,11 @@ module.exports = (sequelize) => {
       end_hour: {
         type: DataTypes.STRING,
         allowNull: false
+      },
+      acount_student: {
+        type: DataTypes.INTEGER,
+        allowNull: true
       }
-    },
-    {
-      timestamps: false,
     }
   )
 }

@@ -1,19 +1,17 @@
 const {
   Student,
-  StudentSchedule,
-  StudentCategory,
-  StudentLevel,
   Category,
   Level,
-  Schedule,
   StudenTypeClass,
+  TypeClass,
+  NameClass,
   conn: sequelize,
 } = require("../db");
 const errorUser = require("../utils/error");
 
 const getAllStudent = async (req, res) => {
   try {
-    const allStudents = await Student.findAll({ include: [Category, Level], });
+    const allStudents = await Student.findAll({ include: [Category, Level] });
 
     res.status(200).json(allStudents);
   } catch (error) {
@@ -30,16 +28,16 @@ const getPagAllStudent = async (req, res) => {
 
     // Consulta de estudiantes con paginación y filtros
     const whereConditionCategory = {};
-    if (categoryId) whereConditionCategory['id'] = categoryId;
+    if (categoryId) whereConditionCategory["id"] = categoryId;
 
     const whereConditionLevel = {};
-    if (levelId) whereConditionLevel['id'] = levelId;
+    if (levelId) whereConditionLevel["id"] = levelId;
 
     // Consulta de estudiantes con paginación y filtros
     const { count, rows } = await Student.findAndCountAll({
       include: [
-        { model: Category, as: 'Categories', where: whereConditionCategory },
-        { model: Level, as: 'Levels', where: whereConditionLevel },
+        { model: Category, as: "Categories", where: whereConditionCategory },
+        { model: Level, as: "Levels", where: whereConditionLevel },
       ],
       offset,
       limit: size,
@@ -60,7 +58,6 @@ const getPagAllStudent = async (req, res) => {
     errorUser(error, res);
   }
 };
-
 
 const postStudent = async (req, res) => {
   const {
@@ -178,30 +175,57 @@ const updateStudent = async (req, res) => {
   }
 };
 
-const addTypeClassStudent = async(req, res) => {
-  const { StudentId, TypeClassId } = req.body
+const addTypeClassStudent = async (req, res) => {
+  const { StudentId, TypeClassId } = req.body;
   try {
-    const addTypeClassStudent = await StudenTypeClass.create({
-      StudentId,
-      TypeClassId
-    })
+    // Buscar la clase por su ID
+    const typeClass = await TypeClass.findByPk(TypeClassId, {
+      include: [NameClass],
+    });
 
+    if (!typeClass) {
+      return res.status(404).json({ message: "Clase no encontrada", status: 404 });
+    }
+
+    // Verificar el tipo de clase y la capacidad
+    if (typeClass.NameClasses[0].name === "INDIVIDUAL") {
+      if (typeClass.acount_student === 0) {
+        typeClass.acount_student = 1;
+      } else {
+        return res.status(400).json({ message: "La clase individual ya está llena", status: 400 });
+      }
+    } else if (typeClass.NameClasses[0].name === "GRUPAL") {
+      if (typeClass.acount_student < 15) {
+        typeClass.acount_student++;
+      } else {
+        return res.status(400).json({ message: "La clase grupal está llena", status: 400 });
+      }
+    } else {
+      return res.status(400).json({ message: "Tipo de clase no válido", status: 400 });
+    }
+
+    // Guardar la clase actualizada
+    await typeClass.save();
+
+    // Crear una relación entre el estudiante y la clase
+    const typeClassStudent = await StudenTypeClass.create({ StudentId, TypeClassId });
+
+    // Enviar respuesta al cliente
     res.status(200).json({
-      message: 'ok',
+      message: "Agregado con éxito",
       status: 200,
-      typeClassStudent: addTypeClassStudent
-    })
+      typeClassStudent,
+      typeClassUpdate: typeClass,
+    });
   } catch (error) {
-    errorUser(error, res)
+    errorUser(error, res);
   }
-}
-
-
+};
 
 module.exports = {
   getAllStudent,
   postStudent,
   updateStudent,
   getPagAllStudent,
-  addTypeClassStudent
+  addTypeClassStudent,
 };
