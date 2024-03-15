@@ -1,3 +1,4 @@
+const { Op } = require("sequelize");
 const {
   Student,
   Category,
@@ -222,10 +223,86 @@ const addTypeClassStudent = async (req, res) => {
   }
 };
 
+const getStudentSchedule = async(req, res) => {
+  try {
+    const { startDate, endDate } = req.query
+
+    let whereClause = {}; // Inicializar la cláusula where para la consulta
+
+    // Verificar si se proporcionan fechas y agregarlas a la cláusula where
+    if (startDate && endDate) {
+      whereClause = {
+        start_day: {
+          [Op.between]: [startDate, endDate], // Utilizar Op.between para filtrar por rango de fechas
+        },
+      };
+    }
+
+    const findAllStudent = await Student.findAll({
+      include: [
+        {
+          model: TypeClass,
+          where: whereClause,
+          include: {
+            model: NameClass
+          }
+        },
+        {
+          model: Category
+        },
+        {
+          model: Level
+        }
+      ]
+    })
+
+    res.status(200).json({
+      message: 'ok',
+      status: 200,
+      allStudentSchedule: findAllStudent
+    })
+  } catch (error) {
+    errorUser(error, res)
+  }
+}
+
+const studentNameClass = async (req, res) => {
+  try {
+    const { typeClassId } = req.query
+
+    const studentClass = await Student.findAll({
+      include: [
+        {
+          model: TypeClass,
+          where: { id: typeClassId },
+          include: NameClass
+        },
+        {
+          model: Category
+        },
+        {
+          model: Level
+        }
+      ]
+    })
+
+    res.status(200).json({
+      message: 'ok',
+      status: 200,
+      studentClass: studentClass
+    })
+
+  } catch (error) {
+    errorUser(error, res)
+  }
+}
+
 module.exports = {
   getAllStudent,
   postStudent,
   updateStudent,
   getPagAllStudent,
   addTypeClassStudent,
+  getStudentSchedule,
+  studentNameClass
 };

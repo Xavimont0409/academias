@@ -4,7 +4,9 @@ const {
   postStudent,
   updateStudent,
   getPagAllStudent,
-  addTypeClassStudent
+  addTypeClassStudent,
+  getStudentSchedule,
+  studentNameClass
 } = require("../controllers/students.controller");
 
 const studenRouter = Router();
@@ -14,8 +16,11 @@ studenRouter.get("/paginado", getPagAllStudent);
 studenRouter.post("/students", postStudent);
 studenRouter.put("/students", updateStudent);
 
+
 //add class
 
 studenRouter.post("/add-student-class", addTypeClassStudent);
+studenRouter.get('/student-schedule', getStudentSchedule)
+studenRouter.get('/student-class', studentNameClass)
 
 module.exports = studenRouter;
