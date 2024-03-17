@@ -7,6 +7,7 @@ export const studentStore = create()((set, get) => {
 
   return {
     students: [],
+    typeClass: [],
     loading: false,
     limit: 3,
     page: 1,
@@ -18,6 +19,12 @@ export const studentStore = create()((set, get) => {
     getAllStudents: async () => {
       const students = await getRequest(baseUrl);
       set({ students });
+    },
+
+    getAllClass: async () => {
+      const { typeClass } = await getRequest('classes');
+      console.log(typeClass);
+      set({ typeClass })
     },
 
     getPagAllStudents: async (filter) => {

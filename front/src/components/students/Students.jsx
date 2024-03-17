@@ -18,7 +18,6 @@ export function Students() {
     setUpdateData,
     getPagStudents,
     limit,
-    page,
     totalStudents,
     handleCategoryId,
     handleLevelId,

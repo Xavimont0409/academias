@@ -26,7 +26,7 @@ const getTypeClass = async (req, res) => {
     res.status(200).json({
       message: "ok",
       status: 200,
-      typeClasses: allClass,
+      typeClass: allClass,
     });
   } catch (error) {
     errorUser(error, res);
@@ -34,7 +34,7 @@ const getTypeClass = async (req, res) => {
 };
 
 const addTypeClass = async (req, res) => {
-  const { startDay, endDay, startHour, endHour, NameClassId, acountStudent } =
+  const { startDay, endDay, startHour, endHour, NameClassId, acountStudent, uniqueValue } =
     req.body;
 
   try {
@@ -44,6 +44,7 @@ const addTypeClass = async (req, res) => {
         end_day: endDay,
         start_hour: startHour,
         end_hour: endHour,
+        uniqueValue
       },
     });
     if (existingTypeClassSchedule) {
@@ -58,6 +59,7 @@ const addTypeClass = async (req, res) => {
           start_hour: startHour,
           end_hour: endHour,
           acount_student: acountStudent,
+          uniqueValue
         },
         { transaction: t }
       );

@@ -1,12 +1,12 @@
-import { typeClassStore } from "../../store/typeClassStore";
 import { useState, useEffect } from "react";
+import { classStore } from "../../store/classStore";
 
 export function useClass() {
-	const { classes: dataClasses } = typeClassStore(state => state)
+	const { typeClass: classData } = classStore()
 	const [classes, setClasses] = useState([])
 
 	useEffect(() => {
-		const newClasses = dataClasses?.map((item) => ({
+		const newClasses = classData?.map((item) => ({
 			id: item.id,
 			startDay: item.start_day,
 			endDay: item.end_day,
@@ -15,13 +15,16 @@ export function useClass() {
 			acountStudent: item.acount_student,
 			createdAt: item.createdAt,
 			updatedAt: item.updatedAt,
-			NameClasses: item?.NameClasses[0].map(item => ({
+			start: `${item.start_day.slice(0,10)}T${item.start_hour}`,
+			end: `${item.end_day.slice(0,10)}T${item.start_hour}`,
+			NameClasses: item?.NameClasses.map(item => ({
 				id: item.id,
 				name: item.name,
-			}))
+			})),
+			uniqueValue: item.uniqueValue
 		}))
 		setClasses(newClasses)
-	}, [dataClasses])
+	}, [classData])
 
 	return {
 		classes

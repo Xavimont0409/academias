@@ -14,12 +14,10 @@ export function useFunctionStudents () {
   }
 
   const handleCategoryId = (e) => {
-    console.log(e.target.value);
     setCategoryId(e.target.value)
   }
 
   const handleLevelId = (e) => {
-    console.log(e.target.value);
     setLevelId(e.target.value)
   }
 

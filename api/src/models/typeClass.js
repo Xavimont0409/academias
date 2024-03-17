@@ -27,6 +27,10 @@ module.exports = (sequelize) => {
       acount_student: {
         type: DataTypes.INTEGER,
         allowNull: true
+      },
+      uniqueValue: {
+        type: DataTypes.STRING,
+        allowNull: true
       }
     }
   )
